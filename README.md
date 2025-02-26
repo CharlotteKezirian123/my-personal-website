@@ -1,2 +1,2 @@
 # my-personal-website
-SEPHORA 4 LIFE 
+All about Charlotte
