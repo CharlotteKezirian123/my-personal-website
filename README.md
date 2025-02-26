@@ -1,2 +1,2 @@
 # my-personal-website
-All about Charlotte
+collage ranking and food and all about me!! 
