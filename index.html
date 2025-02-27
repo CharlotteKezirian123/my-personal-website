@@ -1,59 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatlotte Kezirian - Personal Website</title>
-    <style>
-        body {
-            font-family: times new roman, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            color: blue;
-            padding: 20px;
-        }
-        section {
-            margin: 50px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            background: #333;
-            color: pink;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Your Name</h1>
-        <p>Welcome to my personal website!</p>
-    </header>
-    <section>
-        <h2>About Me</h2>
-        <p>Hey I am Charlotte and i am 13 years old, I love coding robotics and anything anything that has to do with kids!!</p>
-    </section>
-    <section>
-        <h2>Projects</h2>
-        <p>Showcase some of your work or interests.</p>
-    </section>
-    <section>
-        <h2>Contact</h2>
-        <p>Text me at 617 584 7003.</p>
-    </section>
-    <footer>
-        <p>&copy; 2025 Charlotte Kezirian. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,6 +16,7 @@
             height: 100vh;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
+            flex-direction: column;
         }
         .container {
             background: rgba(255, 255, 255, 0.1);
@@ -91,6 +37,10 @@
             resize: none;
             font-family: 'Poppins', sans-serif;
         }
+        #countdown {
+            font-size: 24px;
+            margin-top: 20px;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
@@ -98,6 +48,23 @@
     <div class="container">
         <h2>Enter Your Text Below:</h2>
         <textarea placeholder="Type something here..."></textarea>
+        <div id="countdown"></div>
     </div>
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date('May 30, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `Countdown to May 30, 2025: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>
