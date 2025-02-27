@@ -86,6 +86,22 @@
             margin-top: 30px;
         }
 
+        /* Restart Button */
+        #restartButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: pink;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        #restartButton:hover {
+            background-color: #ff69b4;
+        }
+
     </style>
 </head>
 <body>
@@ -102,6 +118,7 @@
         <canvas id="pongCanvas" width="800" height="400"></canvas>
         <div id="score">Player: 0 | AI: 0</div>
         <div id="gameOver"></div>
+        <button id="restartButton" style="display: none;" onclick="restartGame()">Restart Game</button>
     </div>
 
     <script>
@@ -137,6 +154,7 @@
                 // Game over condition when AI reaches 10 points
                 document.getElementById("gameOver").innerText = "Game Over! AI Wins!";
                 document.getElementById("score").style.display = "none";
+                document.getElementById("restartButton").style.display = "inline-block"; // Show restart button
                 return; // Stop the game loop
             }
 
@@ -215,6 +233,22 @@
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
+
+        // Function to restart the game
+        function restartGame() {
+            playerScore = 0;
+            aiScore = 0;
+            playerY = canvas.height / 2 - paddleHeight / 2;
+            aiY = canvas.height / 2 - paddleHeight / 2;
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX = 5;
+            ballSpeedY = 3;
+            document.getElementById("score").style.display = "block";
+            document.getElementById("gameOver").innerText = "";
+            document.getElementById("restartButton").style.display = "none"; // Hide restart button
+            gameLoop();
+        }
     </script>
 </body>
 </html>
