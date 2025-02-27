@@ -57,4 +57,164 @@
             display: inline-block;
         }
 
-        c
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        /* Score display */
+        #score {
+            font-size: 24px;
+            color: white;
+            margin-top: 20px;
+        }
+
+        #gameOver {
+            font-size: 32px;
+            color: red;
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Simple Pong Game</h1>
+
+    <div class="container">
+        <h2>About the Game</h2>
+        <textarea placeholder="Write something here..."></textarea>
+        <div id="countdown"></div>
+    </div>
+
+    <div class="pong-container">
+        <h2>Pong Game Area</h2>
+        <canvas id="pongCanvas" width="800" height="400"></canvas>
+        <div id="score">Player: 0 | AI: 0</div>
+        <div id="gameOver"></div>
+    </div>
+
+    <script>
+        // Pong Game Script
+        const canvas = document.getElementById("pongCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const paddleWidth = 10, paddleHeight = 80;
+        let playerY = canvas.height / 2 - paddleHeight / 2;
+        let aiY = canvas.height / 2 - paddleHeight / 2;
+        const paddleSpeed = 7;  // Increased paddle speed for player
+        let aiSpeed = 3;        // Set AI speed to be slower than the player's speed
+
+        let ballX = canvas.width / 2, ballY = canvas.height / 2;
+        let ballSpeedX = 5, ballSpeedY = 3;
+        const ballSize = 10;
+
+        let playerScore = 0;  // Player's score
+        let aiScore = 0;      // AI's score
+
+        // Change from Arrow keys to W and S for player control
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "w" || event.key === "W") {
+                if (playerY > 0) playerY -= paddleSpeed;
+            }
+            if (event.key === "s" || event.key === "S") {
+                if (playerY < canvas.height - paddleHeight) playerY += paddleSpeed;
+            }
+        });
+
+        function gameLoop() {
+            if (aiScore >= 10) {
+                // Game over condition when AI reaches 10 points
+                document.getElementById("gameOver").innerText = "Game Over! AI Wins!";
+                document.getElementById("score").style.display = "none";
+                return; // Stop the game loop
+            }
+
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw paddles
+            ctx.fillStyle = "white";
+            ctx.fillRect(10, playerY, paddleWidth, paddleHeight);
+            ctx.fillRect(canvas.width - 20, aiY, paddleWidth, paddleHeight);
+
+            // Move AI Paddle (simple AI follows the ball but not always perfectly)
+            if (ballY > aiY + paddleHeight / 2) {
+                aiY += aiSpeed;
+            } else if (ballY < aiY + paddleHeight / 2) {
+                aiY -= aiSpeed;
+            }
+
+            // Ball collision with paddles
+            ctx.fillRect(ballX, ballY, ballSize, ballSize);
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Ball collision with top and bottom
+            if (ballY <= 0 || ballY >= canvas.height - ballSize) ballSpeedY *= -1;
+
+            // Ball collision with paddles
+            if (
+                (ballX <= 20 && ballY > playerY && ballY < playerY + paddleHeight) || 
+                (ballX >= canvas.width - 30 && ballY > aiY && ballY < aiY + paddleHeight)
+            ) {
+                ballSpeedX *= -1;
+            }
+
+            // Ball out of bounds (reset and update score)
+            if (ballX < 0) {
+                aiScore += 1;  // AI scores a point
+                resetBall();
+            }
+            if (ballX > canvas.width) {
+                playerScore += 1;  // Player scores a point
+                resetBall();
+            }
+
+            // Update the score display
+            document.getElementById("score").innerText = `Player: ${playerScore} | AI: ${aiScore}`;
+
+            // Repeat the game loop
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Reset ball to the center
+        function resetBall() {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX *= -1; // Change ball direction
+            ballSpeedY = 3;  // Reset vertical speed
+        }
+
+        // Start the game loop
+        gameLoop();
+
+        // Countdown Timer Script
+        function updateCountdown() {
+            const targetDate = new Date('May 30, 2025 3:30:00').getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `Countdown to May 30, 2025: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
