@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong Game and More</title>
     <style>
-        /* Styling for Pong Game */
+        /* Styling for Body */
         body {
             text-align: center;
             background-color: black;
@@ -15,21 +16,18 @@
             padding: 0;
         }
 
-        canvas {
-            border: 2px solid white;
-            display: block;
-            margin: 50px auto;
-        }
-
         /* Styling for Text Area and Countdown */
         .container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 105, 180, 0.8); /* Pink background */
             padding: 20px;
             border-radius: 10px;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             margin-top: 20px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         textarea {
@@ -41,22 +39,55 @@
             border-radius: 5px;
             outline: none;
             resize: none;
+            background-color: white;
+            color: black;
         }
 
         #countdown {
             font-size: 24px;
             margin-top: 20px;
+            color: white;
         }
+
+        /* Styling for the Pong Game Canvas */
+        .pong-container {
+            margin-top: 30px;
+            padding: 20px;
+            border: 5px solid pink; /* Pink border for the Pong game */
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body>
     <h1>Simple Pong Game</h1>
-    <canvas id="pongCanvas" width="800" height="400"></canvas>
 
     <div class="container">
-        <h2>Text Area with Countdown Timer</h2>
+        <h2>About the Game</h2>
         <textarea placeholder="Write something here..."></textarea>
         <div id="countdown"></div>
+    </div>
+
+    <div class="pong-container">
+        <h2>Pong Game Area</h2>
+        <canvas id="pongCanvas" width="800" height="400"></canvas>
     </div>
 
     <script>
@@ -73,9 +104,14 @@
         let ballSpeedX = 5, ballSpeedY = 3;
         const ballSize = 10;
 
+        // Change from Arrow keys to W and S for player control
         document.addEventListener("keydown", (event) => {
-            if (event.key === "ArrowUp" && playerY > 0) playerY -= paddleSpeed;
-            if (event.key === "ArrowDown" && playerY < canvas.height - paddleHeight) playerY += paddleSpeed;
+            if (event.key === "w" || event.key === "W") {
+                if (playerY > 0) playerY -= paddleSpeed;
+            }
+            if (event.key === "s" || event.key === "S") {
+                if (playerY < canvas.height - paddleHeight) playerY += paddleSpeed;
+            }
         });
 
         function gameLoop() {
@@ -133,4 +169,3 @@
     </script>
 </body>
 </html>
-
