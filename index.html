@@ -91,4 +91,100 @@
         updateCountdown();
     </script>
 </body>
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            border: 2px solid white;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Pong Game</h1>
+    <canvas id="pongCanvas" width="800" height="400"></canvas>
+
+    <script>
+        // Get Canvas
+        const canvas = document.getElementById("pongCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Paddle Settings
+        const paddleWidth = 10, paddleHeight = 80;
+        let playerY = canvas.height / 2 - paddleHeight / 2;
+        let aiY = canvas.height / 2 - paddleHeight / 2;
+        const paddleSpeed = 5;
+
+        // Ball Settings
+        let ballX = canvas.width / 2, ballY = canvas.height / 2;
+        let ballSpeedX = 5, ballSpeedY = 3;
+        const ballSize = 10;
+
+        // Player Controls
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowUp" && playerY > 0) playerY -= paddleSpeed;
+            if (event.key === "ArrowDown" && playerY < canvas.height - paddleHeight) playerY += paddleSpeed;
+        });
+
+        // Game Loop
+        function gameLoop() {
+            // Clear Canvas
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Paddles
+            ctx.fillStyle = "white";
+            ctx.fillRect(10, playerY, paddleWidth, paddleHeight);
+            ctx.fillRect(canvas.width - 20, aiY, paddleWidth, paddleHeight);
+
+            // Move AI Paddle (simple AI follows the ball)
+            if (aiY + paddleHeight / 2 < ballY) aiY += paddleSpeed;
+            if (aiY + paddleHeight / 2 > ballY) aiY -= paddleSpeed;
+
+            // Draw Ball
+            ctx.fillRect(ballX, ballY, ballSize, ballSize);
+
+            // Move Ball
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Ball Collision with Top & Bottom
+            if (ballY <= 0 || ballY >= canvas.height - ballSize) {
+                ballSpeedY *= -1;
+            }
+
+            // Ball Collision with Paddles
+            if (
+                (ballX <= 20 && ballY > playerY && ballY < playerY + paddleHeight) || 
+                (ballX >= canvas.width - 30 && ballY > aiY && ballY < aiY + paddleHeight)
+            ) {
+                ballSpeedX *= -1; // Reverse ball direction
+            }
+
+            // Ball Out of Bounds (Reset)
+            if (ballX < 0 || ballX > canvas.width) {
+                ballX = canvas.width / 2;
+                ballY = canvas.height / 2;
+                ballSpeedX *= -1; // Change direction
+            }
+
+            // Repeat Game Loop
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start Game
+        gameLoop();
+    </script>
+</body>
 </html>
