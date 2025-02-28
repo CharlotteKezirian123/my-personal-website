@@ -9,6 +9,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
+            background-color: lightblue;
         }
         #textbox {
             width: 300px;
@@ -35,7 +36,7 @@
     </style>
 </head>
 <body>
-    <h1>Welcome to my website</h1>
+    <h1>🎂 ⋆ 🍡  🎀  𝒲𝑒𝓁𝒸𝓂𝑒 𝓉o 𝓂𝓎 𝒲𝑒𝒷𝓈𝒾𝓉𝑒  🎀  🍡 ⋆ 🎂</h1>
     <textarea id="textbox" placeholder="Type here..."></textarea>
     <div id="countdown"></div>
     
@@ -45,9 +46,14 @@
         <button class="choice" onclick="playGame('paper')">Paper</button>
         <button class="choice" onclick="playGame('scissors')">Scissors</button>
         <p id="gameResult"></p>
+        <p>Wins: <span id="wins">0</span> | Losses: <span id="losses">0</span> | Ties: <span id="ties">0</span></p>
     </div>
     
     <script>
+        let wins = 0;
+        let losses = 0;
+        let ties = 0;
+
         function updateCountdown() {
             const targetDate = new Date("May 30, 2025 00:00:00").getTime();
             const now = new Date().getTime();
@@ -76,15 +82,21 @@
 
             if (userChoice === computerChoice) {
                 result = "It's a tie!";
+                ties++;
             } else if ((userChoice === 'rock' && computerChoice === 'scissors') ||
                        (userChoice === 'paper' && computerChoice === 'rock') ||
                        (userChoice === 'scissors' && computerChoice === 'paper')) {
                 result = "You win!";
+                wins++;
             } else {
                 result = "You lose!";
+                losses++;
             }
 
             document.getElementById("gameResult").innerText = `Computer chose ${computerChoice}. ${result}`;
+            document.getElementById("wins").innerText = wins;
+            document.getElementById("losses").innerText = losses;
+            document.getElementById("ties").innerText = ties;
         }
     </script>
 </body>
