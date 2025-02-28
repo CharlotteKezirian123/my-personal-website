@@ -42,12 +42,13 @@
     
     <div class="game-container">
         <h2>Rock Paper Scissors</h2>
-        <button class="choice" onclick="playGame('rock')">Rock</button>
-        <button class="choice" onclick="playGame('paper')">Paper</button>
-        <button class="choice" onclick="playGame('scissors')">Scissors</button>
+        <button class="choice" onclick="playGame('rock')" id="rockBtn">Rock</button>
+        <button class="choice" onclick="playGame('paper')" id="paperBtn">Paper</button>
+        <button class="choice" onclick="playGame('scissors')" id="scissorsBtn">Scissors</button>
         <p id="gameResult"></p>
         <p>Wins: <span id="wins">0</span> | Losses: <span id="losses">0</span> | Ties: <span id="ties">0</span></p>
         <p id="gameOverMessage"></p>
+        <button onclick="resetGame()" id="resetBtn" style="display:none;">Reset Game</button>
     </div>
     
     <script>
@@ -80,6 +81,7 @@
         function playGame(userChoice) {
             if (computerWins >= 15) {
                 document.getElementById("gameOverMessage").innerText = "Game Over! Computer wins 15 times!";
+                disableButtons();
                 return;
             }
 
@@ -105,6 +107,31 @@
             document.getElementById("wins").innerText = wins;
             document.getElementById("losses").innerText = losses;
             document.getElementById("ties").innerText = ties;
+        }
+
+        function disableButtons() {
+            document.getElementById("rockBtn").disabled = true;
+            document.getElementById("paperBtn").disabled = true;
+            document.getElementById("scissorsBtn").disabled = true;
+            document.getElementById("resetBtn").style.display = "inline-block";
+        }
+
+        function resetGame() {
+            wins = 0;
+            losses = 0;
+            ties = 0;
+            computerWins = 0;
+            document.getElementById("wins").innerText = wins;
+            document.getElementById("losses").innerText = losses;
+            document.getElementById("ties").innerText = ties;
+            document.getElementById("gameResult").innerText = "";
+            document.getElementById("gameOverMessage").innerText = "";
+            document.getElementById("resetBtn").style.display = "none";
+
+            // Enable the buttons again
+            document.getElementById("rockBtn").disabled = false;
+            document.getElementById("paperBtn").disabled = false;
+            document.getElementById("scissorsBtn").disabled = false;
         }
     </script>
 </body>
