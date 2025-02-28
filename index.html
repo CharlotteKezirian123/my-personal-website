@@ -47,12 +47,14 @@
         <button class="choice" onclick="playGame('scissors')">Scissors</button>
         <p id="gameResult"></p>
         <p>Wins: <span id="wins">0</span> | Losses: <span id="losses">0</span> | Ties: <span id="ties">0</span></p>
+        <p id="gameOverMessage"></p>
     </div>
     
     <script>
         let wins = 0;
         let losses = 0;
         let ties = 0;
+        let computerWins = 0;
 
         function updateCountdown() {
             const targetDate = new Date("May 30, 2025 00:00:00").getTime();
@@ -76,6 +78,11 @@
         updateCountdown();
 
         function playGame(userChoice) {
+            if (computerWins >= 15) {
+                document.getElementById("gameOverMessage").innerText = "Game Over! Computer wins 15 times!";
+                return;
+            }
+
             const choices = ['rock', 'paper', 'scissors'];
             const computerChoice = choices[Math.floor(Math.random() * choices.length)];
             let result = "";
@@ -91,6 +98,7 @@
             } else {
                 result = "You lose!";
                 losses++;
+                computerWins++;
             }
 
             document.getElementById("gameResult").innerText = `Computer chose ${computerChoice}. ${result}`;
