@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +15,7 @@
         }
 
         .container {
-            background: rgba(255, 105, 180, 0.8); /* Pink background */
+            background: rgba(255, 105, 180, 0.8);
             padding: 20px;
             border-radius: 10px;
             backdrop-filter: blur(10px);
@@ -110,7 +109,7 @@
 
     <div class="container">
         <h2>(´✪‿✪`) Write Something Here (´✪‿✪`)</h2>
-        <textarea placeholder="(´✪‿✪`)"Countdown to the last day of school!!"></textarea>
+        <textarea placeholder="Countdown to the last day of school!"></textarea>
         <div id="countdown"></div>
     </div>
 
@@ -127,15 +126,16 @@
         <button id="restartButton" onclick="restartGame()">Restart Game</button>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.1"></script>
     <script>
         let playerScore = 0;
         let aiScore = 0;
 
         function playGame(playerChoice) {
-            if (playerScore >= 10 || aiScore >= 10) return; // Stop game if it's over
+            if (playerScore >= 10 || aiScore >= 10) return;
 
             const choices = ["rock", "paper", "scissors"];
-            const aiChoice = choices[Math.floor(Math.random() * 3)]; // AI's random move
+            const aiChoice = choices[Math.floor(Math.random() * 3)];
 
             let resultMessage = `You chose ${playerChoice}. AI chose ${aiChoice}. `;
 
@@ -157,8 +157,9 @@
             document.getElementById("score").innerText = `Player: ${playerScore} | AI: ${aiScore}`;
 
             if (playerScore >= 10) {
-                document.getElementById("gameOver").innerText = "Game Over! You Win!";
+                document.getElementById("gameOver").innerText = "🎉 Game Over! You Win! 🎉";
                 document.getElementById("restartButton").style.display = "block";
+                startConfetti(); // Start confetti when you win
             } else if (aiScore >= 10) {
                 document.getElementById("gameOver").innerText = "Game Over! AI Wins!";
                 document.getElementById("restartButton").style.display = "block";
@@ -172,9 +173,30 @@
             document.getElementById("score").innerText = "Player: 0 | AI: 0";
             document.getElementById("gameOver").innerText = "";
             document.getElementById("restartButton").style.display = "none";
+            stopConfetti(); // Stop confetti when restarting
         }
 
-        // Countdown Timer Script
+        function startConfetti() {
+            const duration = 5 * 1000; // Confetti lasts for 5 seconds
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    spread: 80,
+                    origin: { x: Math.random(), y: 0 }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        }
+
+        function stopConfetti() {
+            confetti.reset(); // Stops confetti when restarting
+        }
+
         function updateCountdown() {
             const targetDate = new Date('May 30, 2025 3:30:00').getTime();
             const now = new Date().getTime();
