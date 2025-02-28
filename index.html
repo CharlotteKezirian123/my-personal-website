@@ -3,140 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors Game</title>
+    <title>Countdown Timer</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             text-align: center;
-            background-color: black;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
+            margin-top: 50px;
         }
-
-        .container {
-            background: rgba(255, 105, 180, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-top: 20px;
-            width: 60%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
+        #textbox {
+            width: 300px;
+            height: 100px;
+            background-color: pink;
+            border: 2px solid #ff69b4;
             font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            outline: none;
-            resize: none;
-            background-color: white;
-            color: black;
+            padding: 10px;
+            display: block;
+            margin: 0 auto 20px;
         }
-
         #countdown {
             font-size: 24px;
-            margin-top: 20px;
-            color: white;
+            font-weight: bold;
         }
-
         .game-container {
-            background: rgba(255, 105, 180, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            margin-top: 20px;
+            margin-top: 30px;
         }
-
-        .choices button {
-            font-size: 18px;
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: pink;
-            color: white;
-        }
-
-        .choices button:hover {
-            background-color: #ff69b4;
-        }
-
-        #result {
-            font-size: 24px;
-            margin-top: 20px;
-        }
-
-        #score {
+        .choice {
             font-size: 20px;
-            margin-top: 10px;
-        }
-
-        #gameOver {
-            font-size: 28px;
-            color: red;
-            margin-top: 20px;
-        }
-
-        #restartButton {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: pink;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 18px;
+            margin: 10px;
             cursor: pointer;
-            display: none;
-        }
-
-        #restartButton:hover {
-            background-color: #ff69b4;
         }
     </style>
 </head>
 <body>
-    <h1>Rock Paper Scissors</h1>
-
-    <div class="container">
-        <h2>(´✪‿✪`) Write Something Here (´✪‿✪`)</h2>
-        <textarea placeholder="Countdown to the last day of school!"></textarea>
-        <div id="countdown"></div>
+    <h1>Welcome to my website</h1>
+    <textarea id="textbox" placeholder="Type here..."></textarea>
+    <div id="countdown"></div>
+    
+    <div class="game-container">
+        <h2>Rock Paper Scissors</h2>
+        <button class="choice" onclick="playGame('rock')">Rock</button>
+        <button class="choice" onclick="playGame('paper')">Paper</button>
+        <button class="choice" onclick="playGame('scissors')">Scissors</button>
+        <p id="gameResult"></p>
     </div>
-
-   body {
-    text-align: center;
-    background-color: lightblue; /* Changed from black to light blue */
-    color: white;
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
+    
+    <script>
         function updateCountdown() {
-            const targetDate = new Date('May 30, 2025 3:30:00').getTime();
+            const targetDate = new Date("May 30, 2025 00:00:00").getTime();
             const now = new Date().getTime();
-            const difference = targetDate - now;
+            const timeLeft = targetDate - now;
 
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown").innerHTML = `Countdown to May 30, 2025: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            document.getElementById("countdown").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (timeLeft < 0) {
+                document.getElementById("countdown").innerHTML = "Countdown expired!";
+            }
         }
-
+        
         setInterval(updateCountdown, 1000);
         updateCountdown();
+
+        function playGame(userChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+            let result = "";
+
+            if (userChoice === computerChoice) {
+                result = "It's a tie!";
+            } else if ((userChoice === 'rock' && computerChoice === 'scissors') ||
+                       (userChoice === 'paper' && computerChoice === 'rock') ||
+                       (userChoice === 'scissors' && computerChoice === 'paper')) {
+                result = "You win!";
+            } else {
+                result = "You lose!";
+            }
+
+            document.getElementById("gameResult").innerText = `Computer chose ${computerChoice}. ${result}`;
+        }
     </script>
 </body>
 </html>
