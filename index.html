@@ -47,7 +47,7 @@
         .heart {
             position: fixed;
             color: red;
-            font-size: 24px;
+            font-size: 50px;
             animation: float 4s linear infinite;
             pointer-events: none;
         }
@@ -127,37 +127,13 @@
             document.getElementById("ties").innerText = ties;
         }
 
-        function disableButtons() {
-            document.getElementById("rockBtn").disabled = true;
-            document.getElementById("paperBtn").disabled = true;
-            document.getElementById("scissorsBtn").disabled = true;
-            document.getElementById("resetBtn").style.display = "inline-block";
-        }
-
-        function resetGame() {
-            wins = 0;
-            losses = 0;
-            ties = 0;
-            computerWins = 0;
-            document.getElementById("wins").innerText = wins;
-            document.getElementById("losses").innerText = losses;
-            document.getElementById("ties").innerText = ties;
-            document.getElementById("gameResult").innerText = "";
-            document.getElementById("gameOverMessage").innerText = "";
-            document.getElementById("resetBtn").style.display = "none";
-
-            document.getElementById("rockBtn").disabled = false;
-            document.getElementById("paperBtn").disabled = false;
-            document.getElementById("scissorsBtn").disabled = false;
-        }
-
         function createHeart() {
             const heart = document.createElement("div");
             heart.innerHTML = "❤️";
             heart.classList.add("heart");
             heart.style.left = Math.random() * window.innerWidth + "px";
             heart.style.top = Math.random() * window.innerHeight + "px";
-            heart.style.fontSize = Math.random() * 30 + 10 + "px"; 
+            heart.style.fontSize = Math.random() * 60 + 20 + "px"; 
 
             document.body.appendChild(heart);
 
